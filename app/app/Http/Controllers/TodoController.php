@@ -15,7 +15,9 @@ class TodoController extends Controller
 {
     public function getTodos(Request $request, int $categoryId): JsonResponse
     {
-        $todos = DB::table('todos')->get();
+        $todos = DB::table('todos')
+            ->get()
+            ->where('category_id', '=', $categoryId);
 
         return new JsonResponse($todos);
     }
