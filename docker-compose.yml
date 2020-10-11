@@ -15,14 +15,14 @@ services:
     working_dir: /var/www
     volumes:
       - ./app/:/var/www
-      - ./docker/php/local.ini:/usr/local/etc/php/default.conf/local.ini
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 
   #Nginx Service
   webserver:
     image: nginx:alpine
-    container_name: webserver
+    container_name: todo-app-webserver
     restart: unless-stopped
     tty: true
     ports:

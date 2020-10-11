@@ -45,6 +45,8 @@ RUN npm install -g yarn
 #RUN groupadd -g 1000 www
 #RUN useradd -u 1000 -ms /bin/bash -g www www
 
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
 # Copy existing application directory contents
 COPY ./app/ /var/www
 
