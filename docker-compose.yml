@@ -43,7 +43,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: todo-app
+      MYSQL_DATABASE: todo_app
       MYSQL_ROOT_PASSWORD: 2AK[PzC{Bb8Dz/:`
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
