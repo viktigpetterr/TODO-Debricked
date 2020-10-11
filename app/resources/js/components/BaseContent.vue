@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Todos from "./Todos.vue"
+import Todos from "./BaseContent/Todos"
 
 export default {
     name: 'BaseContent',

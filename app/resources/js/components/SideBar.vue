@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import BaseLogo from "./BaseLogo";
-import Categories from "./Categories";
+import BaseLogo from "./SideBar/BaseLogo";
+import Categories from "./SideBar/Categories";
 export default {
     name: "SideBar",
     components: {
@@ -19,7 +19,7 @@ export default {
 
 <style scoped>
 .side-wrapper {
-    background-image: url("../../../assets/carousel-graphic-svg.svg");
+    background-image: url("../../assets/carousel-graphic-svg.svg");
     background-size: cover;
     background-position: top right;
     width: 450px;

@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import Category from "./Category";
-import CategoryInput from "./CategoryInput";
+import Category from "./Categories/Category";
+import CategoryInput from "./Categories/CategoryInput";
 
 export default {
     name: "Categories",

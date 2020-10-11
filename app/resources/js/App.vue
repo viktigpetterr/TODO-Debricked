@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import BaseContent from './components/BaseContent/BaseContent.vue'
-import SideBar from "./components/SideBar/SideBar.vue";
+import BaseContent from './components/BaseContent'
+import SideBar from "./components/SideBar";
 
 export default {
   name: 'app',
