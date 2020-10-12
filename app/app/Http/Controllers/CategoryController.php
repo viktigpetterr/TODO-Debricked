@@ -20,7 +20,8 @@ class CategoryController extends Controller
         $categories = DB::table('categories')
             ->select(['id', 'name'])
             ->where('user_id', '=', 1)
-            ->get();
+            ->get()
+            ->toArray();
         foreach ($categories as $category)
         {
             $category->numberOfTodos = DB::table('todos')

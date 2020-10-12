@@ -36,7 +36,10 @@ export default {
     mounted() {
         this.$api
             .get("categories")
-            .then(response => this.categories = response.data)
+            .then(response => {
+                this.categories = response.data
+                this.$store.commit('changeCategory', this.categories[0])
+            })
             .catch(error => console.log(error))
     },
     data() {
