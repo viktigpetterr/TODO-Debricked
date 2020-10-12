@@ -30,8 +30,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        categoryId: 1,
-        categoryName: ""
+        categoryId: 0,
+        categoryName: null
     },
     mutations: {
         changeCategory (state, category) {
