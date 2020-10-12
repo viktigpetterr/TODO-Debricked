@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,22 +17,31 @@ class CategoryController extends Controller
 {
     public function getCategories(Request $request): JsonResponse
     {
-        $categories = DB::table('categories')->select(['id', 'name'])->get();
+        $categories = DB::table('categories')
+            ->select(['id', 'name'])
+            ->where('user_id', '=', 1)
+            ->get();
         foreach ($categories as $category)
         {
-            $category->numberOfTodos = DB::table('todos')->count();
+            $category->numberOfTodos = DB::table('todos')
+                ->where('category_id', '=', $category->id)
+                ->count('*');
         }
+
         return new JsonResponse($categories);
     }
 
     public function addCategory(Request $request): JsonResponse
     {
-        $json = json_decode($request->getContent(), true);
+        $json = \json_decode($request->getContent(), true);
         $name = isset($json['name']) ? $json['name'] : null;
-        $wasInserted = DB::insert('insert into categories (name) values (?)', [$name]);
-        $newId = $wasInserted ? DB::table('categories')->where('name', $name)->value('id') : null;
+        $category = new Category();
+        $category->name = $name;
+        $category->user_id = 1;
 
-        return $newId !== null ?  new JsonResponse(['id' => $newId]) : new JsonResponse("", 403);
+        $wasInserted = $category->save();
+
+        return $wasInserted ? new JsonResponse(['id' => $category->id]) : new JsonResponse("", 403);
     }
 
     public function deleteCategory(Request $request, int $categoryId): Response

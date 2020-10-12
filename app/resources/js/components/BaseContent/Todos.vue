@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import Todo from "./Todo";
-import TodoForm from "./TodoForm";
+import Todo from "./Todos/Todo";
+import TodoForm from "./Todos/TodoForm";
 
 export default {
     name: "Todos",
@@ -40,12 +40,12 @@ export default {
     methods: {
         fetchTodos() {
             this.$api
-                .get("todos/" + this.categoryId)
+                .get(this.categoryId + "/todos")
                 .then(response => this.todos = response.data)
                 .catch(error => console.log(error))
         },
         deleteTodo(index) {
-            const url = "todos/delete/" + this.categoryId + "/" + this.todos[index].id
+            const url = this.categoryId + "/todos/delete/"  + this.todos[index].id
             this.$api
                 .post(url)
                 .then(response => { this.$delete(this.todos, index) })
@@ -54,7 +54,7 @@ export default {
         addTodo (text) {
             this.todos.push({ done: 0, text: text })
             this.$api
-                .post("todos/" + this.categoryId, { text: text })
+                .post(this.categoryId + "/todos/add", { text: text })
                 .then(response => { this.todos[this.todos.length - 1].id = response.data.id })
                 .catch(error => {
                     this.$delete(this.todos, this.todos.length - 1)
@@ -62,7 +62,7 @@ export default {
                 })
         },
         todoDone (index) {
-            const url = "todos/done/" + this.categoryId + "/" + this.todos[index].id
+            const url =this.categoryId + "/todos/done/" + this.todos[index].id
             this.$api
                 .post(url)
                 .catch(error => {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Todo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,10 +27,12 @@ class TodoController extends Controller
     {
         $json = \json_decode($request->getContent(), true);
         $text = isset($json['text']) ? $json['text'] : null;
-        $wasInserted = DB::table('todos')->insert(['text' => $text]);
-        $newId = $wasInserted ? DB::table('todos')->where('text', $text)->distinct()->value('id') : null;
+        $todo = new Todo();
+        $todo->text = $text;
+        $todo->category_id = $categoryId;
+        $wasInserted = $todo->save();
 
-        return $newId !== null ?  new JsonResponse(['id' => $newId]) : new JsonResponse("", 400);
+        return $wasInserted ? new JsonResponse(['id' => $todo->id]) : new JsonResponse("", 400);
     }
 
     public function deleteTodo(int $categoryId, int $todoId): Response

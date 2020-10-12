@@ -50,7 +50,7 @@ export default {
             if (text !== "") {
                 this.categories.push({name: text, numberOfTodos: 0})
                 this.$api
-                    .post("categories", { name: text })
+                    .post("categories/add", { name: text })
                     .then(response => this.categories[this.categories.length - 1].id = response.data.id)
                     .catch(error => {
                         this.$delete(this.categories, this.categories.length - 1)
