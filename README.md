@@ -12,5 +12,6 @@ Basic to-do application to be used for co-workers at Debricked.
 ## Installation
 - `git clone https://github.com/viktigpetterr/TODO-Debricked.git`
 - `cd TODO-Debricked`
+- `docker-compose build`
 - `docker-compose up`
-- Open `127.0.0.1` in browser. Voilà
+- Open `http://127.0.0.1` in your browser. Voila
