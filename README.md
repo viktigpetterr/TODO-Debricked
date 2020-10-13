@@ -1,6 +1,6 @@
 # TODO-Debricked
 
-Basic to-do application to be used for co-workers at Debricked.
+Basic to-do application to be used by co-workers at Debricked.
 
 ## Tech stack: 
  - Docker
