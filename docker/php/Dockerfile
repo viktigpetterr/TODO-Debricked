@@ -1,15 +1,10 @@
-FROM php:7.4-fpm
-
-USER root
-
-# Copy composer.lock and composer.json
-COPY ./app/composer.lock ./app/composer.json /var/www/
+FROM php:8.0-fpm
 
 # Set working directory
 WORKDIR /var/www
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
@@ -22,7 +17,9 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libonig-dev \
-    libzip-dev
+    libzip-dev \
+    unzip \
+    apt-utils
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -32,8 +29,10 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+# Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install Node
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
@@ -41,25 +40,11 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
 
 # Install Yarn
 RUN npm install -g yarn
-# Add user for laravel application
-#RUN groupadd -g 1000 www
-#RUN useradd -u 1000 -ms /bin/bash -g www www
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+COPY app/ .
 
-# Copy existing application directory contents
-COPY ./app/ /var/www
+COPY --chown=www-data:www-data app/ /var/www/
+RUN chmod u+x install.sh
 
-# Copy existing application directory permissions
-COPY --chown=www:www . /var/www
-
-# Change current user to www
-USER www
-
-RUN yarn install
-RUN composer install
-RUN yarn run prod
-RUN php artisan migrate:refresh --seed
-# Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]

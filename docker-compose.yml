@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    image: php:7.4-fpm
     container_name: todo-app-app
     restart: unless-stopped
     tty: true
@@ -14,10 +13,13 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
-      - ./app/:/var/www
+      - ./app:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
+    depends_on:
+      - webserver
+      - db
 
   #Nginx Service
   webserver:
